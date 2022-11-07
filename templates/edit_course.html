@@ -26,10 +26,11 @@
     <div class="container">
       <div class="row justify-content-center my-5">
         <h5 style="color:white">Course</h5>
+        <input type="hidden" id="student_id" value={{course_code}}>
         </br>
-        <form style="color:white" method="POST" action='/courses/add'>
+        <form style="color:white" method="POST" action='/courses/edit/{{course_code}}'>
             {{ form.hidden_tag() }}
-
+          
           <div class="form-row">
             <div class="form-group col-md-2">
               {{ form.code.label(class="form-label") }}

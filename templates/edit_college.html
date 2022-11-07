@@ -26,30 +26,23 @@
     <div class="container">
       <div class="row justify-content-center my-5">
         <h5 style="color:white">Course</h5>
+        <input type="hidden" id="student_id" value={{course_code}}>
         </br>
-        <form style="color:white" method="POST" action='/courses/add'>
+        <form style="color:white" method="POST" action='/colleges/edit/{{course_code}}'>
             {{ form.hidden_tag() }}
-
+          
           <div class="form-row">
             <div class="form-group col-md-2">
               {{ form.code.label(class="form-label") }}
     
-              {{ form.code(class="form-control", placeholder="BS") }}
+              {{ form.code(class="form-control", placeholder="CCS") }}
             </div>
           </div>
 
           <div class="form-group">
             {{ form.name.label(class="form-label") }}
     
-            {{ form.name(class="form-control", placeholder="BS in ...") }}
-          </div>
-
-          <div class="form-row">
-            <div class="form-group col-md-6">
-              {{ form.college.label(class="form-label") }}
-  
-              {{ form.college(class="form-control") }}
-            </div>
+            {{ form.name(class="form-control", placeholder="College of ...") }}
           </div>
           
           <div class="form-group">
