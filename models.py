@@ -42,6 +42,15 @@ class Students():
 
         mysql.connection.commit()
     
+    def search(mysql, searched):
+        cursor = mysql.connection.cursor()
+        sql = "SELECT * FROM students WHERE %s in (student_id, full_name, college, course_code, year_level, gender)"
+        cursor.execute(sql, (searched, ))
+
+        result = cursor.fetchall()
+
+        return result
+    
     def get_student(mysql, data_id):
         cursor = mysql.connection.cursor()
         sql = "SELECT * from students where student_id = %s"

@@ -62,7 +62,9 @@ def search():
     form = SearchForm()
     if form.validate_on_submit():
         searched = form.searched.data
-        return render_template("search.html", form=form, searched=searched)
+        result = models.Students.search(mydb, searched)
+        if result:
+            return render_template("search.html", form=form, searched=searched, studentsList=result)
 
 @app.route("/home")
 def home():
@@ -203,7 +205,6 @@ def edit_get_course(id,get_college):
         courseObj['name'] = course[1]
         coursesArray.append(courseObj)
     return jsonify({'courselist' : coursesArray})
-
 
 if __name__ == "__main__":
     app.run(debug=True)
