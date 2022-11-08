@@ -30,6 +30,8 @@ class StudentForm(FlaskForm):
     course = SelectField("Course", choices=['Choose...'], validate_choice=False)
     year = SelectField("Year", choices=[1, 2, 3, 4], validate_choice=False)
     gender = RadioField("Gender",  choices=[("Male","Male"), ("Female","Female")], validate_choice=False)
+    choices=[('Student', 'Student'), ('Course', 'Course'), ('College', 'College')]
+    select = SelectField('Search', choices=choices, validate_choice=False)
     submit = SubmitField("Add")
 
 class EditForm(FlaskForm):
@@ -40,21 +42,29 @@ class EditForm(FlaskForm):
     course = SelectField("Course", choices=['Choose...'], validate_choice=False)
     year = SelectField("Year", choices=[1, 2, 3, 4], validate_choice=False)
     gender = RadioField("Gender",  choices=[("Male","Male"), ("Female","Female")], validate_choice=False)
+    choices=[('Student', 'Student'), ('Course', 'Course'), ('College', 'College')]
+    select = SelectField('Search', choices=choices, validate_choice=False)
     submit = SubmitField("Add")
 
 class CollegeForm(FlaskForm):
     code = StringField("Code", validators=[InputRequired()])
     name = StringField("Name", validators=[InputRequired()])
+    choices=[('Student', 'Student'), ('Course', 'Course'), ('College', 'College')]
+    select = SelectField('Search', choices=choices, validate_choice=False)
     submit = SubmitField("Add")
 
 class CourseForm(FlaskForm):
     code = StringField("Code", validators=[InputRequired()])
     name = StringField("Name", validators=[InputRequired()])
     college = SelectField("College", choices=[], validate_choice=False)
+    choices=[('Student', 'Student'), ('Course', 'Course'), ('College', 'College')]
+    select = SelectField('Search', choices=choices, validate_choice=False)
     submit = SubmitField("Add")
 
 class SearchForm(FlaskForm):
     searched = StringField("Searched", validators=[InputRequired()])
+    choices=[('Student', 'Student'), ('Course', 'Course'), ('College', 'College')]
+    select = SelectField('Search', choices=choices)
     submit = SubmitField("Submit")
 
 @app.route("/search", methods =["POST"])
@@ -62,9 +72,16 @@ def search():
     form = SearchForm()
     if form.validate_on_submit():
         searched = form.searched.data
-        result = models.Students.search(mydb, searched)
-        if result:
-            return render_template("search.html", form=form, searched=searched, studentsList=result)
+        field = form.select.data
+        if field == 'Student':
+            result = models.Students.search(mydb, searched)
+            return render_template("search.html", searched=searched, studentsList=result, field = field)
+        elif field == 'Course':
+            result = models.Courses.search(mydb, searched)
+            return render_template("search.html", searched=searched, coursesList=result, field = field)
+        elif field == 'College':
+            result =  models.Colleges.search(mydb, searched)
+            return render_template("search.html", searched=searched, collegesList=result, field = field)
 
 @app.route("/home")
 def home():
@@ -113,7 +130,6 @@ def colleges():
 @app.route('/colleges/add', methods = ['GET', 'POST'])
 def add_colleges():
     form = CollegeForm()
-    print("HIIII")
     if form.validate_on_submit():
         college = models.Colleges(form.code.data, form.name.data)
         college.add(mydb)

@@ -46,16 +46,17 @@ class Students():
         cursor = mysql.connection.cursor()
         sql = "SELECT * FROM students WHERE %s in (student_id, full_name, college, course_code, year_level, gender)"
         cursor.execute(sql, (searched, ))
-
         result = cursor.fetchall()
-
         return result
     
-    def get_student(mysql, data_id):
+    def search(mysql, searched):
         cursor = mysql.connection.cursor()
-        sql = "SELECT * from students where student_id = %s"
-        cursor.execute(sql, (data_id,))
-        result = cursor.fetchone()
+        sql = "SELECT * FROM students WHERE %s IN (student_id, full_name, college, course_code, year_level, gender);"
+        resultValue = cursor.execute(sql, (searched,))
+        if resultValue > 0:
+            result = cursor.fetchall()
+        else:
+            return False
         return result
 
 class Colleges():
@@ -87,7 +88,6 @@ class Colleges():
             colleges = cursor.fetchall()
         return colleges
 
-
     def delete(mysql, code):
         try:
             cursor = mysql.connection.cursor()
@@ -105,6 +105,13 @@ class Colleges():
         cursor.execute(sql, (self.code, self.name, college_code))
 
         mysql.connection.commit()
+
+    def search(mysql, searched):
+        cursor = mysql.connection.cursor()
+        sql = "SELECT * from colleges where %s in (CollegeCode, CollegeName)"
+        cursor.execute(sql, (searched, ))
+        result = cursor.fetchall()
+        return result
 
 class Courses():
     def __init__(self, code=None, name=None, college=None):
@@ -144,4 +151,12 @@ class Courses():
         cursor.execute(sql, (self.code, self.name, self.college, course_code))
 
         mysql.connection.commit()
+
+    def search(mysql, searched):
+        cursor = mysql.connection.cursor()
+        sql = "SELECT * from course_info where %s in (course_code, course, college)"
+        cursor.execute(sql, (searched, ))
+        result = cursor.fetchall()
+        return result
+        return result
         

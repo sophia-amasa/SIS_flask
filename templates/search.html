@@ -58,6 +58,48 @@
                     {% endfor %}
                     </table>
                 {% endif %}
+                {% if coursesList %}
+                    <table class="table" style="color:white; border-collapse: collapse;border-style: hidden;">
+                        <tr>
+                            <th scope="col" style="color:white;border: 1px solid white;text-align: center;">Code</th>
+                            <th scope="col" style="color:white;border: 1px solid white;text-align: center;">Course</th>
+                            <th scope="col" style="color:white;border: 1px solid white;text-align: center;">College</th>
+                        </tr>
+                    {% for course in coursesList %}
+                        <tr>
+                            <td style="color:white;border: 1px solid white;text-align: center;">{{course[0]}}</td>
+                            <td style="color:white;border: 1px solid white;text-align: center;">{{course[1]}}</td>
+                            <td style="color:white;border: 1px solid white;text-align: center;">{{course[2]}}</td>
+                            <td style="text-align: center;">
+                              <a href="/courses/edit/{{course[0]}}" class="btn btn-outline-info">Edit</button> 
+                            </td>
+                            <td style="text-align: center;">
+                              <a href="/courses/delete/{{course[0]}}" class="btn btn-outline-warning">Delete</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </table>
+                {% endif %}
+                {% if collegesList %}
+                    <table class="table" style="color:white; border-collapse: collapse;border-style: hidden;">
+                        <tr>
+                            <th scope="col" style="color:white;border: 1px solid white;text-align: center;">Code</th>
+                            <th scope="col" style="color:white;border: 1px solid white;text-align: center;">College</th>
+                        </tr>
+                    {% for college in collegesList %}
+                        <tr>
+                            <td style="color:white;border: 1px solid white;text-align: center;">{{college[0]}}</td>
+                            <td style="color:white;border: 1px solid white;text-align: center;">{{college[1]}}</td>
+                            <td style="text-align: center;">
+                              <a href="/colleges/edit/{{college[0]}}" class="btn btn-outline-info">Edit</button> 
+                            </td>
+                            <td style="text-align: center;">
+                              <a href="/colleges/delete/{{college[0]}}" class="btn btn-outline-warning">Delete</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </table>
+                {% endif %}
             </div>
         </div>
     {% endblock %}
