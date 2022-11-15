@@ -3,17 +3,18 @@ from flask import jsonify, json
 from flask_mysqldb import MySQL
 from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField, PasswordField, TextAreaField, RadioField, SelectField
+from config import DB_USERNAME, DB_PASSWORD, DB_NAME, DB_HOST, SECRET_KEY, BOOTSTRAP_SERVE_LOCAL
 from wtforms.validators import  InputRequired
 import models as models
 
 app = Flask(__name__)
 
 #Configure db
-app.config['MYSQL_HOST'] = 'localhost'
-app.config['MYSQL_USER'] = 'root'
-app.config['MYSQL_PASSWORD'] = 'Sophr@@t1'
-app.config['MYSQL_DB'] = 'students'
-app.config['SECRET_KEY'] = 'secret secret'
+app.config['MYSQL_HOST'] = DB_HOST
+app.config['MYSQL_USER'] = DB_USERNAME
+app.config['MYSQL_PASSWORD'] = DB_PASSWORD
+app.config['MYSQL_DB'] = DB_NAME
+app.config['SECRET_KEY'] = SECRET_KEY
 
 mydb = MySQL(app)
 
