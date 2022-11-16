@@ -5,7 +5,7 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField, PasswordField, TextAreaField, RadioField, SelectField
 from config import DB_USERNAME, DB_PASSWORD, DB_NAME, DB_HOST, SECRET_KEY, BOOTSTRAP_SERVE_LOCAL
 from wtforms.validators import  InputRequired
-import app.models as models
+import models as models
 
 app = Flask(__name__)
 
@@ -33,6 +33,7 @@ class StudentForm(FlaskForm):
     gender = RadioField("Gender",  choices=[("Male","Male"), ("Female","Female")], validate_choice=False)
     choices=[('Student', 'Student'), ('Course', 'Course'), ('College', 'College')]
     select = SelectField('Search', choices=choices, validate_choice=False)
+    image = FileField(validators=[FileAllowed(images, 'Image only!'), FileRequired('File was empty!')])
     submit = SubmitField("Add")
 
 class EditForm(FlaskForm):
@@ -167,6 +168,9 @@ def students():
             return("Cannot")
         student = models.Students(student_ID, form.name.data, form.college.data, form.course.data, form.year.data, form.gender.data)
         student.add(mydb)
+        filename = images.save(form.image.data)
+        file_url = images.url(filename)
+        print('Filename: ', filename, 'URL: ', file_url)
         return redirect('/home')
     return render_template("add_student.html", form=form)
 
