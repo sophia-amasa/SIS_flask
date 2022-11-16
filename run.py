@@ -2,10 +2,12 @@ from flask import Flask, redirect, url_for, render_template, request
 from flask import jsonify, json
 from flask_mysqldb import MySQL
 from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField, PasswordField, TextAreaField, RadioField, SelectField
-from config import DB_USERNAME, DB_PASSWORD, DB_NAME, DB_HOST, SECRET_KEY, BOOTSTRAP_SERVE_LOCAL
+from wtforms import StringField, SubmitField, PasswordField, TextAreaField, RadioField, SelectField, FileField
+from config import DB_USERNAME, DB_PASSWORD, DB_NAME, DB_HOST, SECRET_KEY, BOOTSTRAP_SERVE_LOCAL, CLOUD_NAME, API_KEY, API_SECRET
 from wtforms.validators import  InputRequired
 import app.models as models
+import cloudinary
+import cloudinary.uploader
 
 app = Flask(__name__)
 
@@ -17,6 +19,12 @@ app.config['MYSQL_DB'] = DB_NAME
 app.config['SECRET_KEY'] = SECRET_KEY
 
 mydb = MySQL(app)
+
+cloudinary.config( 
+  cloud_name = CLOUD_NAME, 
+  api_key = API_KEY, 
+  api_secret = API_SECRET 
+)
 
 @app.context_processor
 def base():
@@ -33,6 +41,7 @@ class StudentForm(FlaskForm):
     gender = RadioField("Gender",  choices=[("Male","Male"), ("Female","Female")], validate_choice=False)
     choices=[('Student', 'Student'), ('Course', 'Course'), ('College', 'College')]
     select = SelectField('Search', choices=choices, validate_choice=False)
+    profile_pic = FileField('Picture')
     submit = SubmitField("Add")
 
 class EditForm(FlaskForm):
@@ -167,9 +176,9 @@ def students():
             return("Cannot")
         student = models.Students(student_ID, form.name.data, form.college.data, form.course.data, form.year.data, form.gender.data)
         student.add(mydb)
-        filename = images.save(form.image.data)
-        file_url = images.url(filename)
-        print('Filename: ', filename, 'URL: ', file_url)
+        result = cloudinary.uploader.upload(form.profile_pic.data)
+        url = result.get("url")
+
         return redirect('/home')
     return render_template("add_student.html", form=form)
 
