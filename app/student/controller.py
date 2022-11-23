@@ -46,7 +46,6 @@ def students():
             int(form.id_num.data)
         except:
             return("Cannot")
-        print(form.profile_pic.data)
         result = cloudinary.uploader.upload(form.profile_pic.data)
         url = result.get("url")
         student = models.Students(student_ID, form.name.data, form.college.data, form.course.data, form.year.data,  form.gender.data, url)
