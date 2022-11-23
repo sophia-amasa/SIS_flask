@@ -2,19 +2,20 @@ from app import mydb
 
 class Students():
 
-    def __init__(self, id_num=None, name=None, college=None, course=None, year=None, gender=None):
+    def __init__(self, id_num=None, name=None, college=None, course=None, year=None, gender=None, url=None):
         self.id = id_num
         self.name = name
         self.college = college
         self.course = course
         self.year = year
         self.gender = gender
+        self.url = url
 
     def add(self):
         cursor = mydb.connection.cursor()
 
-        sql = "INSERT INTO students VALUES (%s, %s, %s, %s, %s, %s)"
-        cursor.execute(sql, (self.id, self.name, self.college, self.course, self.year, self.gender))
+        sql = "INSERT INTO students VALUES (%s, %s, %s, %s, %s, %s, %s)"
+        cursor.execute(sql, (self.id, self.name, self.college, self.course, self.year, self.gender, self.url))
 
         mydb.connection.commit()
 
@@ -38,24 +39,17 @@ class Students():
     def edit(self, data_id):
         cursor = mydb.connection.cursor()
 
-        sql = "UPDATE students SET student_id = %s, full_name = %s, college = %s, course_code = %s, year_level = %s, gender = %s where student_id = %s"
-        cursor.execute(sql, (self.id, self.name, self.college, self.course, self.year, self.gender,data_id))
-
+        sql = "UPDATE students SET student_id = %s, full_name = %s, college = %s, course_code = %s, year_level = %s, gender = %s, url = %s where student_id = %s"
+        cursor.execute(sql, (self.id, self.name, self.college, self.course, self.year, self.gender, self.url, data_id))
+        
         mydb.connection.commit()
-    
-    def search(searched):
-        cursor = mydb.connection.cursor()
-        sql = "SELECT * FROM students WHERE %s in (student_id, full_name, college, course_code, year_level, gender)"
-        cursor.execute(sql, (searched, ))
-        result = cursor.fetchall()
-        return result
     
     def search(searched):
         cursor = mydb.connection.cursor()
         sql = "SELECT * FROM students WHERE %s IN (student_id, full_name, college, course_code, year_level, gender);"
         resultValue = cursor.execute(sql, (searched,))
         if resultValue > 0:
-            result = cursor.fetchall()
+                result = cursor.fetchall()
         else:
             return False
         return result

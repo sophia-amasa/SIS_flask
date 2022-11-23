@@ -8,3 +8,9 @@ class CollegeForm(FlaskForm):
     choices=[('Student', 'Student'), ('Course', 'Course'), ('College', 'College')]
     select = SelectField('Search', choices=choices, validate_choice=False)
     submit = SubmitField("Add")
+
+class SearchForm(FlaskForm):
+    searched = StringField("Searched", validators=[InputRequired()])
+    choices=[('Student', 'Student'), ('Course', 'Course'), ('College', 'College')]
+    select = SelectField('Search', choices=choices)
+    submit = SubmitField("Submit")

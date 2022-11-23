@@ -26,38 +26,38 @@
   <body style="background: rgb(30,30,30);">
     {% include "base.html" %}
     {% block content %}
-        <div class="container" >
-            <div class="row justify-content-center my-5">
-                {% if studentsList %}
-                    <table class="table" style="color:white; border-collapse: collapse;border-style: hidden;">
-                        <tr>
-                            <th scope="col" style="color:white;border: 1px solid white;text-align: center;">ID</th>
-                            <th scope="col" style="color:white;border: 1px solid white;text-align: center;">Name</th>
-                            <th scope="col" style="color:white;border: 1px solid white;text-align: center;">College</th>
-                            <th scope="col" style="color:white;border: 1px solid white;text-align: center;">Course</th>
-                            <th scope="col" style="color:white;border: 1px solid white;text-align: center;">Year Level</th>
-                            <th scope="col" style="color:white;border: 1px solid white;text-align: center;">Gender</th>
-                        </tr>
-                    {% for student in studentsList %}
-                        <tr>
-                            <td style="color:white;border: 1px solid white;text-align: center;">{{student[0]}}</td>
-                            <td style="color:white;border: 1px solid white;text-align: center;">{{student[1]}}</td>
-                            <td style="color:white;border: 1px solid white;text-align: center;">{{student[2]}}</td>
-                            <td style="color:white;border: 1px solid white;text-align: center;">{{student[3]}}</td>
-                            <td style="color:white;border: 1px solid white;text-align: center;">{{student[4]}}</td>
-                            <td style="color:white;border: 1px solid white;text-align: center;">{{student[5]}}</td>
-                            <td style="text-align: center;">
-                              <a href="/edit/{{student[0]}}" class="btn btn-outline-info">Edit</button> 
-                            </td>
-                            <td style="text-align: center;">
-                              <a href="/students/delete/{{student[0]}}" class="btn btn-outline-warning">Delete</a>
-                            </td>
-                        </tr>
-                    {% endfor %}
-                    </table>
-                {% endif %}
-            </div>
-        </div>
+      <div class="row justify-content-center my-5">
+        {% if studentsList %}
+          <table class="table" style="color:white; border-collapse: collapse;border-style: hidden;">
+            <tr>
+              <th scope="col" style="color:white;border: 1px solid white;text-align: center;">ID</th>
+              <th scope="col" style="color:white;border: 1px solid white;text-align: center;">Name</th>
+              <th scope="col" style="color:white;border: 1px solid white;text-align: center;">College</th>
+              <th scope="col" style="color:white;border: 1px solid white;text-align: center;">Course</th>
+              <th scope="col" style="color:white;border: 1px solid white;text-align: center;">Year Level</th>
+              <th scope="col" style="color:white;border: 1px solid white;text-align: center;">Gender</th>
+              <th scope="col" style="color:white;border: 1px solid white;text-align: center;">Profile Picture</th>
+            </tr>
+            {% for student in studentsList %}
+              <tr>
+                <td style="color:white;border: 1px solid white;text-align: center;">{{student[0]}}</td>
+                <td style="color:white;border: 1px solid white;text-align: center;">{{student[1]}}</td>
+                <td style="color:white;border: 1px solid white;text-align: center;">{{student[2]}}</td>
+                <td style="color:white;border: 1px solid white;text-align: center;">{{student[3]}}</td>
+                <td style="color:white;border: 1px solid white;text-align: center;">{{student[4]}}</td>
+                <td style="color:white;border: 1px solid white;text-align: center;">{{student[5]}}</td>
+                <td style="color:white;border: 1px solid white;text-align: center;"><img src={{student[6]}} alt="Picture" width="100" height="100"></td>
+                <td style="text-align: center;">
+                  <a href="/edit/{{student[0]}}" class="btn btn-outline-info">Edit</button> 
+                </td>
+                <td style="text-align: center;">
+                  <a href="/students/delete/{{student[0]}}" class="btn btn-outline-warning">Delete</a>
+                </td>
+              </tr>
+            {% endfor %}
+          </table>
+        {% endif %}
+      </div>
     {% endblock %}
     <script
       src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"
