@@ -21,7 +21,7 @@ class Students():
 
     def all():
         cursor = mydb.connection.cursor()
-        sql = "SELECT * from students"
+        sql = "SELECT * from students LEFT JOIN course_info ON students.course_code = course_info.course_code LEFT JOIN colleges ON students.college = colleges.CollegeCode"
         cursor.execute(sql)
         result = cursor.fetchall()
         return result
